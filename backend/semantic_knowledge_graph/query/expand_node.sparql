@@ -1,0 +1,14 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT ?s ?p ?o
+WHERE {
+    {
+        <[SearchSubject]> ?p ?o .
+        FILTER (!isBlank(?o))
+    }
+    UNION
+    {
+        ?s ?p <[SearchSubject]> .
+        FILTER (!isBlank(?s))
+    }
+}

@@ -1,0 +1,8 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+SELECT ?p ?o
+WHERE {
+  <[SearchSubject]> ?p ?o.
+  ?p rdf:type owl:AnnotationProperty.
+  FILTER (isLiteral(?o))
+    
+}

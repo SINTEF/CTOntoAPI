@@ -14,22 +14,34 @@ class GraphDBQueryService:
     __datastore = "CTOntoLib"
 
 
-    def __new__(cls):
+    #def __new__(cls):
+    #    if cls.__instance is None:
+    #        cls()
+    #    return cls.__instance
+
+    @classmethod
+    def instance(cls):
         if cls.__instance is None:
-            cls.__instance = super(GraphDBQueryService, cls).__new__(cls)
-            cls.__instance.__init__()
+            cls()
         return cls.__instance
 
 
     def __init__(self):
+
+        if self.__instance is not None:
+            raise Exception("Singleton instantiated multiple times!")
       
         self.__sparql_endpoint = get_environment_variable("GRAPHDB_SPARQL_ENDPOINT")
-        self.__auth_code = get_environment_variable("GRAPHDB_AUTH_CODE", default="")
+        self.__auth_code = get_environment_variable("GRAPHDB_AUTH_CODE", optional=True, default="")
+        self.__username = get_environment_variable("GRAPHDB_USERNAME", optional=True, default="admin")
+        self.__password = get_environment_variable("GRAPHDB_PASSWORD", optional=True, default="root")
         self.__headers = {
             "Accept": "application/sparql-results+json",
             "Authorization": self.__auth_code,
         }
 
+
+        GraphDBQueryService.__instance = self
         self.__connected = False
         self._connect()
 
@@ -44,10 +56,10 @@ class GraphDBQueryService:
                 logger.info(f"Trying to connect to uri {self.__health_check_uri}.")
 
                 response = requests.get(
-                    self.__health_check_uri, headers=self.__headers, timeout=10
+                    self.__health_check_uri, headers=self.__headers, timeout=5, auth=(self.__username, self.__password)
                 )
                 if not response.ok:
-                    raise Exception(f"Failed to connect to {self.__health_check_uri}")
+                    raise Exception(f"Failed to connect to {self.__health_check_uri}. Response: {response.content}")
 
                 self.__connected = True
 
@@ -66,7 +78,7 @@ class GraphDBQueryService:
             params = {"query": sparql}
             sparql_uri = self.__sparql_endpoint
 
-            response = requests.get(sparql_uri, params=params, headers=self.__headers)
+            response = requests.get(sparql_uri, params=params, headers=self.__headers, auth=(self.__username, self.__password), timeout=5)
             if not response.ok:
                 raise Exception(
                     f"Failed to query data from {self.__datastore}: {response.content}"

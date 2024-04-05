@@ -1,0 +1,15 @@
+PREFIX :<http://www.ontotext.com/graphdb/similarity/>
+PREFIX similarity-index:<http://www.ontotext.com/graphdb/similarity/instance/>
+PREFIX pubo: <http://ontology.ontotext.com/publishing#>
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+SELECT ?documentID (MAX(?score) as ?maxscore)  WHERE {
+    ?search a similarity-index:TermIndex ;
+        :searchTerm "[SearchTerm]";
+        :searchParameters "";
+        :documentResult ?result .
+    ?result :value ?documentID ;
+            :score ?score.
+    Filter not EXISTS {?documentID a owl:ObjectProperty} .
+}
+GROUP BY ?documentID
