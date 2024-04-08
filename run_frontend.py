@@ -3,7 +3,7 @@ from frontend.app import app
 from frontend import page_layout
 from frontend.navbar import navbar_callback
 from frontend.left_sidebar import left_sidebar_callback
-#from factory_graph import factory_graph_callbacks
+from frontend.viz_graph import viz_graph_callback
 
 from enum import Enum
 from dash import html, ctx, no_update

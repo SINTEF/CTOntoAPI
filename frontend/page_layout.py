@@ -1,12 +1,14 @@
 from dash import html
 import dash_bootstrap_components as dbc
 
-#from frontend.factory_graph import factory_graph_layout
+# from frontend.factory_graph import factory_graph_layout
 from frontend.navbar import navbar_layout
 from frontend.left_sidebar import left_sidebar_layout
+from frontend.viz_graph import viz_graph_layout
 from frontend.app import app
 
 from util.log import logger
+
 
 def get_layout():
     """
@@ -27,9 +29,23 @@ def get_layout():
                         [
                             html.Div(
                                 children=[
-                                    left_sidebar_layout.get_layout(),
+                                    dbc.Row(
+                                        style={"width": "100%"},
+                                        children=
+                                        [
+                                            dbc.Col(
+                                                left_sidebar_layout.get_layout(), width=4),
+                                            dbc.Col(
+                                                [
+                                                    viz_graph_layout.get_layout(),
+                                                ],
+                                                width=8,
+                                            ),
+                                        ]
+                                    )
 
-                                    #factory_graph_layout.get_layout(),
+
+                                    # factory_graph_layout.get_layout(),
 
                                 ],
                                 id="content-rows-container",
@@ -44,7 +60,7 @@ def get_layout():
                 id="publication-info-container",
                 children=[
 
-                    #add logo sintef_white.png here    
+                    # add logo sintef_white.png here
                     html.A(
                         html.Img(
                             src=app.get_asset_url("sintef_white.png"),

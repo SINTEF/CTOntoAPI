@@ -11,5 +11,6 @@ SELECT ?documentID (MAX(?score) as ?maxscore)  WHERE {
     ?result :value ?documentID ;
             :score ?score.
     Filter not EXISTS {?documentID a owl:ObjectProperty} .
+    FILTER (!isBlank (?documentID))
 }
 GROUP BY ?documentID

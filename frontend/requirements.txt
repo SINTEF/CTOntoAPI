@@ -1,3 +1,5 @@
 dash
 dash-html-components
 dash-bootstrap-components
+numpy
+pandas
