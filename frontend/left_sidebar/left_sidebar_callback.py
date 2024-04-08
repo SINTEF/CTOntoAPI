@@ -24,6 +24,21 @@ def disable_search_button(n_clicks, search_term):
         return True
     return no_update
 
+@app.callback(
+    Output("search-button", "n_clicks"),
+    Input("search-term", "value"),
+    State("search-button", "n_clicks"),
+    State("search-button", "disabled"),
+    prevent_initial_call=True,
+)
+def simulate_search_button(search_term, n_clicks, disabled):
+    logger.info("simulate_search_button")
+    triggered_id = ctx.triggered_id
+
+    if not disabled:
+        return n_clicks + 1
+    
+    return no_update
 
 #dash callback function for search button
 @app.callback(
@@ -31,12 +46,13 @@ def disable_search_button(n_clicks, search_term):
     Output("search-result", "style"),
     Output("search-button", "disabled"),
     Input("search-button", "n_clicks"),
-    Input("search-term", "value"),
+    State("search-term", "value"),
     State("search-graph", "value"),
     prevent_initial_call=True,
     
 ) 
 def search_concept(n_clicks, search_term, search_graph):
+    logger.info("search_concept")
     triggered_id = ctx.triggered_id
     #print(search_term)
     #print(search_graph)
@@ -44,12 +60,12 @@ def search_concept(n_clicks, search_term, search_graph):
     #disable the search button and enable again after search
     #
     style = {"display": "block", "overflow": "auto"}
-    if n_clicks or triggered_id == "search-term":
-        #time.sleep(5)
+    if n_clicks: #or triggered_id == "search-term":
+        #time.sleep(10)
         logger.info(f"""Search term: {search_term} in graph {search_graph}""")
         ###Call the search function get /search/{search_term}
         #params = {"term": search_term}
-        concepts = get_json(f"/search", retries=5, term=search_term)
+        concepts = get_json(f"/search", retries=5, term=search_term.strip())
         #print(concepts)
         #create a table with two columns: uri and score, the values are from the concepts
         if concepts:
@@ -71,14 +87,16 @@ def search_concept(n_clicks, search_term, search_graph):
                 ]
             )
             return table, style, False
-        else:
-            return None, {"display": "none"}, False
+        
+    return None, {"display": "none"}, False
+    
+    
 
-    return no_update
+    
    
 #callback function when one cell in the search result table is clicked
 @app.callback(
-    Output("viz-graph-card-body", "children"),
+    Output("node-uri", "value"),
     Input("search-result-table", "active_cell"),
     State("search-result-table", "data"),
     prevent_initial_call=True,
@@ -87,6 +105,8 @@ def on_click_table(active_cell, data):
     if active_cell:
         row = active_cell["row"]
         print(data[row])
+        if data[row] and "uri" in data[row]:
+            return data[row]["uri"]
         #print(row)
         #print(data)
         #print(active_cell)

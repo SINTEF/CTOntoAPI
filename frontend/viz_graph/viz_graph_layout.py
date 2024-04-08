@@ -28,6 +28,31 @@ def get_layout():
                         html.Div(
                             id="viz-graph-card-body",
                             children=[
+                                dbc.InputGroup(
+                                    [dbc.InputGroupText("URI"),
+                                        dbc.Input(
+                                            id="node-uri", type="text", debounce=True, placeholder=""),
+                                        dbc.Button("Fetch", id="fetch-button", color="primary", n_clicks=0),],
+
+
+                                ),
+                                # tables of node details, hide by default
+                                html.Div(
+                                    id="node-details",
+                                    children=[
+                                        html.Hr(),
+                                        # html.H6("Data Properties"),
+                                        html.Div(
+                                            id="node-details-table-container",
+                                            children=[
+                                                dbc.Table(
+                                                    id="node-details-table", striped=True, bordered=True, hover=True)
+                                            ]
+                                        )
+
+                                    ],
+                                    style={"display": "none"}
+                                ),
                             ]
                         )
                     ),
