@@ -8,7 +8,8 @@ from util.environment_and_configuration import (
     get_environment_variable_int,
 )
 
-from backend.api.rest_endpoints import query_endpoints
+from backend.api.rest_endpoints import (query_endpoints, 
+                                        wikidata_endpoints)
 
 
 if __name__ == "__main__":

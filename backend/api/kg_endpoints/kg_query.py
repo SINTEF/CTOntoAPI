@@ -114,3 +114,9 @@ def expand_node(uri: str) -> dict:
     
     return_values = {"outgoing": outgoing, "incoming": incoming}
     return return_values
+
+
+def execute_sparql_query(query: str) -> dict:
+    graphdb_service = GraphDBQueryService.instance()
+    results = graphdb_service.graphdb_get(query)
+    return results

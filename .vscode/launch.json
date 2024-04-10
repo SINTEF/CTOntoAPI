@@ -11,7 +11,7 @@
             "request": "launch",
             "program": "./run_frontend.py",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "envFile": "${workspaceFolder}/environment_and_configuration/dev_environment_frontend.env"
         },
         {
@@ -20,7 +20,7 @@
             "request": "launch",
             "program": "./run_backend.py",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "envFile": "${workspaceFolder}/environment_and_configuration/dev_environment_backend.env"
         },
         {
@@ -29,7 +29,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "envFile": "${workspaceFolder}/environment_and_configuration/dev_environment_backend.env"
         }
     ]

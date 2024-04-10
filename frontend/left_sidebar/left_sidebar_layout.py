@@ -15,9 +15,8 @@ def get_layout():
         children=[
             dbc.Card(
                 style={"height": "100%"},
-                children=
-                [
-                    
+                children=[
+
                     dbc.CardHeader(
                         id="left-sidebar-container-card",
                         children=[
@@ -27,8 +26,9 @@ def get_layout():
                     dbc.CardBody(
                         html.Div(
                             id="search-container",
+                            style={"height": "100%"},
                             children=[
-                                #dcc.Store(id="store-search-term", data=""),
+                                # dcc.Store(id="store-search-term", data=""),
                                 dbc.InputGroup(
 
                                     [dbc.InputGroupText(
@@ -85,29 +85,9 @@ def get_layout():
                             ]
                         )
                     ),
-                    # dbc.InputGroup(
-                    #     style={"width": "80%", "margin": "auto",
-                    #            "margin-bottom": "5px"},
-                    #     children=[
-                    #         dbc.Input(id="user-input", placeholder="Write to the chatbot...", type="text",
-                    #                   debounce=True),
-                    #         # dbc.Button("Submit", id="submit", n_clicks=0),
-                    #         dbc.Button("record-done", id="record-done-button",
-                    #                    n_clicks=0, style=dict(display='none')),
-                    #         dbc.Button("stt-done", id="stt-done-button", n_clicks=0,
-                    #                    style=dict(display='none')),
-                    #         dbc.Button(
-                    #             [html.I(className="bi bi-mic")],
-                    #             id="talk-button",
-                    #             n_clicks=0,
-                    #             size="sm",
-                    #             color="success",
-                    #             active=False
-                    #         )
-                    #     ],
-                    # ),
+
                 ],
-                # style={"margin-bottom": "1rem"},
+
             )
         ],
     )

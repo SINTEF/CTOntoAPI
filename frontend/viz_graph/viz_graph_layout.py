@@ -1,5 +1,6 @@
 import dash_bootstrap_components as dbc
 from dash import html, dcc
+from frontend.viz_graph import graph_layout
 
 import uuid
 
@@ -44,21 +45,61 @@ def get_layout():
                                         # html.H6("Data Properties"),
                                         html.Div(
                                             id="node-details-table-container",
+                                            #style={"overflow": "scroll", "max-height": "400px"},
                                             children=[
-                                                dbc.Table(
-                                                    id="node-details-table", striped=True, bordered=True, hover=True)
+                                                dcc.Tabs(
+                                                    id="node-details-tabs",
+                                                    value="node-details-tab",
+                                                    children=[
+                                                        dcc.Tab(label="",
+                                                                id="node-details-tab",
+                                                                value="node-details-tab",
+                                                                
+                                                                children=[
+                                                                    html.Div(
+                                                                        id="node-details-table-div",
+                                                                        style={"overflow": "scroll", "max-height": "300px"},
+                                                                        children=[dbc.Table(
+                                                                            id="node-details-table", striped=True, bordered=True, hover=True,
+
+                                                                        ),]
+                                                                    ),
+
+
+                                                                ]),
+                                                        dcc.Tab(label="",
+                                                                id="altnode-details-tab",
+                                                                value="altnode-details-tab",
+                                                                style={
+                                                                    "display": "none"},
+                                                                children=[
+                                                                    html.Div(
+                                                                        id="altnode-details-table-div",
+                                                                        style={"overflow": "scroll", "max-height": "300px"},
+                                                                        children=[
+                                                                            dbc.Table(
+                                                                        id="altnode-details-table", striped=True, bordered=True, hover=True,
+
+                                                                    ),
+                                                                        ]),
+                                                                    
+                                                                ]),
+
+                                                    ]
+                                                )
                                             ]
                                         )
-
                                     ],
                                     style={"display": "none"}
                                 ),
+                                graph_layout.get_layout(),
                             ]
                         )
                     ),
 
                 ],
 
-            )
+            ),
+
         ],
     )

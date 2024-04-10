@@ -3,3 +3,4 @@ dash-html-components
 dash-bootstrap-components
 numpy
 pandas
+dash_cytoscape

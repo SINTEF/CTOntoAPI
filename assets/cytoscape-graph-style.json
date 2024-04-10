@@ -6,22 +6,22 @@
             "text-halign": "center",
             "text-wrap": "wrap",
             "text-max-width": 80,
-            "font-size": 14,
+            "font-size": 10,
             "font-weight": "bold",
             "color": "#777",
             "background-color": "#446e9b",
             "background-fit": "none",
             "background-width": "70%",
             "background-height": "70%",
-            "height": 40,
-            "width": 40
+            "height": 25,
+            "width": 25
         }
     },
     {
         "selector": "edge",
         "style": {
             "curve-style": "bezier",
-            "width": 2,
+            "width": 1,
             "arrow-scale": 2,
             "line-color": "#777",
             "target-arrow-shape": "triangle-backcurve",
@@ -31,7 +31,7 @@
             "label": "data(label)",
             "color": "#446e9b",
             "text-wrap": "wrap",
-            "font-size": 11,
+            "font-size": 9,
             "font-style": "italic",
             "edge-text-rotation": "autorotate",
             "text-background-opacity": 1,

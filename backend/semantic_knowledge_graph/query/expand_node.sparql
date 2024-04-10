@@ -4,11 +4,13 @@ SELECT ?s ?p ?o
 WHERE {
     {
         <[SearchSubject]> ?p ?o .
-        FILTER (!isBlank(?o))
+        FILTER (!isBlank(?o)).
+        FILTER (!isLiteral(?o))
     }
     UNION
     {
         ?s ?p <[SearchSubject]> .
-        FILTER (!isBlank(?s))
+        FILTER (!isBlank(?s)) .
+        FILTER (!isLiteral(?s))
     }
 }

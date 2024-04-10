@@ -4,7 +4,7 @@ from frontend.app import app
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from dash import no_update, ctx, dash_table
-from frontend.client.client_api import get_json
+from frontend.app import backend_api
 import pandas as pd
 
 
@@ -59,13 +59,16 @@ def search_concept(n_clicks, search_term, search_graph):
 
     #disable the search button and enable again after search
     #
-    style = {"display": "block", "overflow": "auto"}
+    style = {"display": "block"}
     if n_clicks: #or triggered_id == "search-term":
         #time.sleep(10)
         logger.info(f"""Search term: {search_term} in graph {search_graph}""")
         ###Call the search function get /search/{search_term}
         #params = {"term": search_term}
-        concepts = get_json(f"/search", retries=5, term=search_term.strip())
+        if search_graph == "wikidata":
+            concepts = backend_api.get_json(f"/wikidata/search", retries=5, term=search_term.strip())
+        else:
+            concepts = backend_api.get_json(f"/search", retries=5, term=search_term.strip())
         #print(concepts)
         #create a table with two columns: uri and score, the values are from the concepts
         if concepts:
@@ -76,7 +79,7 @@ def search_concept(n_clicks, search_term, search_graph):
                 id='search-result-table',
                 columns=[{"name": i, "id": i} for i in concepts_df.columns],
                 data=concepts_df.to_dict('records'),
-                style_table={'overflowX': 'auto'},
+                style_table={'overflowX': 'auto', 'overflowY': 'auto', 'max-height': '60vh'},
                 style_cell={'textAlign': 'left'},
                 style_header={'backgroundColor': 'rgb(230, 230, 230)', 'fontWeight': 'bold'},
                 style_data_conditional=[
@@ -104,7 +107,7 @@ def search_concept(n_clicks, search_term, search_graph):
 def on_click_table(active_cell, data):
     if active_cell:
         row = active_cell["row"]
-        print(data[row])
+        #print(data[row])
         if data[row] and "uri" in data[row]:
             return data[row]["uri"]
         #print(row)
