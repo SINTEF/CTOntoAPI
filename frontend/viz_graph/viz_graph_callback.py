@@ -63,7 +63,7 @@ def simulate_fetch_button(node_uri, n_clicks, disabled):
 )
 def fetch_node_details(n_clicks, node_uri, search_graph):
     logger.info("fetch_node_details")
-    container_style = {"display": "block", "height": "400px"} #"overflow": "scroll", "max-height": "300px"}
+    container_style = {"display": "block", "height": "100%"} #"overflow": "scroll", "max-height": "300px"}
     altnode_style = {"display": "none"}
     #table_style = {"overflow": "scroll", "max-height": "300px"}
     # print(node_uri)

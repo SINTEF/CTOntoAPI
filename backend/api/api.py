@@ -1,5 +1,6 @@
 import fastapi
-from util.environment_and_configuration import get_environment_variable
+from util.environment_and_configuration import get_environment_variable, get_configuration, ConfigGroups
+
 from util.log import logger
 
 """
@@ -31,10 +32,11 @@ tags_metadata = [
     },
 ]
 
+api_version = get_configuration(ConfigGroups.API, "api_version")
 app = fastapi.FastAPI(
     title="Circular TwAIn Ontology Library API",
     description=description,
-    version="0.1",
+    version=api_version,
     license_info={
         "name": "MIT License",
         "url": "https://opensource.org/licenses/MIT",

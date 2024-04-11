@@ -16,7 +16,7 @@ def get_layout():
     return html.Div(
         id="kg-container",
         #style={"height": "100%", "overflow": "scroll"},
-        style={"display": "none"},
+        #style={"display": "none"},
         children=[
             dcc.Loading(
                 className="kg-loading-indicator-container",
@@ -30,9 +30,10 @@ def get_layout():
                         layout={"name": "klay"},
                         #layout={"name": "dagre"},
                         style={
-                            #"width": "100%",
-                            "height": "60vh",
-                            "overflow": "scroll",
+                            "width": "100%",
+                            #"height": "300px",
+                            "height": "100%",
+                            #"overflow": "scroll",
                         },
                         #wheelSensitivity=0.1,
                         minZoom=0.5,

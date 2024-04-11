@@ -6,6 +6,7 @@ from frontend.navbar import navbar_layout
 from frontend.left_sidebar import left_sidebar_layout
 from frontend.viz_graph import viz_graph_layout
 from frontend.app import app
+from util.environment_and_configuration import get_configuration, ConfigGroups
 
 from util.log import logger
 
@@ -34,12 +35,13 @@ def get_layout():
                                         children=
                                         [
                                             dbc.Col(
-                                                left_sidebar_layout.get_layout(), width=4),
+                                                left_sidebar_layout.get_layout(), width=4, style={"height": "100%"},),
                                             dbc.Col(
                                                 [
                                                     viz_graph_layout.get_layout(),
                                                 ],
                                                 width=8,
+                                                style={"height": "100%"},
                                             ),
                                         ]
                                     )
@@ -74,7 +76,7 @@ def get_layout():
                         className="publication-info-subcontainer",
                         children=[
                             html.Div(
-                                "Publication date:",
+                                "Publication date: " + get_configuration(ConfigGroups.GENERIC, "publication_date"),
                                 className="publication-info-key",
                             ),
                         ],

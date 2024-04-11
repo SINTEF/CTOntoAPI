@@ -28,11 +28,13 @@ def get_layout():
                     dbc.CardBody(
                         html.Div(
                             id="viz-graph-card-body",
+                            style={"height": "100%"},
                             children=[
                                 dbc.InputGroup(
-                                    [dbc.InputGroupText("URI"),
-                                        dbc.Input(
-                                            id="node-uri", type="text", debounce=True, placeholder=""),
+                                    style={"margin-bottom": "10px"},
+                                    children=[dbc.InputGroupText("URI"),
+                                              dbc.Input(
+                                        id="node-uri", type="text", debounce=True, placeholder=""),
                                         dbc.Button("Fetch", id="fetch-button", color="primary", n_clicks=0),],
 
 
@@ -40,12 +42,13 @@ def get_layout():
                                 # tables of node details, hide by default
                                 html.Div(
                                     id="node-details",
+                                    style={"display": "none"},
                                     children=[
-                                        html.Hr(),
+                                        # html.Hr(),
                                         # html.H6("Data Properties"),
                                         html.Div(
                                             id="node-details-table-container",
-                                            #style={"overflow": "scroll", "max-height": "400px"},
+                                            style={"overflow": "scroll", "height": "30vh"},
                                             children=[
                                                 dcc.Tabs(
                                                     id="node-details-tabs",
@@ -54,11 +57,12 @@ def get_layout():
                                                         dcc.Tab(label="",
                                                                 id="node-details-tab",
                                                                 value="node-details-tab",
-                                                                
+
                                                                 children=[
                                                                     html.Div(
                                                                         id="node-details-table-div",
-                                                                        style={"overflow": "scroll", "max-height": "300px"},
+                                                                        style={
+                                                                            "overflow": "scroll", "max-height": "20vh"},
                                                                         children=[dbc.Table(
                                                                             id="node-details-table", striped=True, bordered=True, hover=True,
 
@@ -75,24 +79,26 @@ def get_layout():
                                                                 children=[
                                                                     html.Div(
                                                                         id="altnode-details-table-div",
-                                                                        style={"overflow": "scroll", "max-height": "300px"},
+                                                                        style={
+                                                                            "overflow": "scroll", "max-height": "20vh"},
                                                                         children=[
                                                                             dbc.Table(
-                                                                        id="altnode-details-table", striped=True, bordered=True, hover=True,
+                                                                                id="altnode-details-table", striped=True, bordered=True, hover=True,
 
-                                                                    ),
+                                                                            ),
                                                                         ]),
-                                                                    
+
                                                                 ]),
 
                                                     ]
                                                 )
                                             ]
-                                        )
+                                        ),
+                                        graph_layout.get_layout(),
                                     ],
-                                    style={"display": "none"}
+                                    
                                 ),
-                                graph_layout.get_layout(),
+                                # graph_layout.get_layout(),
                             ]
                         )
                     ),
