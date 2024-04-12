@@ -50,9 +50,13 @@ def entity_retrival(term: str) -> list:
                 
                     return_values.append({"uri": id, "name" : name, "description": description, "score": cosine_similarity})
     
-    return_values = sorted(return_values, key=lambda x: x["score"], reverse=True)
+    return_values_sorted = sorted(return_values, key=lambda x: x["score"], reverse=True)
     #remove values with score less than 0.5
-    return_values = [x for x in return_values if x["score"] > 0.5]
+    return_values = [x for x in return_values_sorted if x["score"] > 0.5]
+
+    #if return_values is empty, return first 10 results
+    if not return_values or len(return_values) == 0:
+        return_values = return_values_sorted[:20]
     
     return return_values
 

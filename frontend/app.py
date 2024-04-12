@@ -35,7 +35,7 @@ app = dash.Dash(
     update_title=None,
     title="CircularTwAIn Ontology Library",
     server=server,
-    background_callback_manager=callback_manager,
+    #background_callback_manager=callback_manager,
 
 )
 
