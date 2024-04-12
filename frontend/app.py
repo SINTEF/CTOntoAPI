@@ -10,6 +10,13 @@ from util.environment_and_configuration import (
 
 from util.client_api import ClientAPI
 
+## Diskcache
+import diskcache
+from dash import DiskcacheManager
+cache = diskcache.Cache("./cache")
+callback_manager = DiskcacheManager(cache)
+####
+
 """
 Plotly dash app instance.
 Separated from presentation.py to avoid circular dependencies with callback files importing the "app" instance. 
@@ -28,6 +35,7 @@ app = dash.Dash(
     update_title=None,
     title="CircularTwAIn Ontology Library",
     server=server,
+    background_callback_manager=callback_manager,
 
 )
 

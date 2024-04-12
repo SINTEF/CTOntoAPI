@@ -37,8 +37,17 @@ def entity_retrival(term: str) -> list:
                         description = ""
                     if "cosine_similarity" in entity:
                         cosine_similarity = entity["cosine_similarity"]
-                    else :
+                    elif "jaccardNgram_score" in entity:
+                        cosine_similarity = entity["jaccardNgram_score"]
+                    elif "jaccard_score" in entity:
+                        cosine_similarity = entity["jaccard_score"]
+                    elif "ed_score" in entity:
+                        cosine_similarity = entity["ed_score"]
+                    elif "es_score" in entity:
+                        cosine_similarity = entity["es_score"]
+                    else:
                         cosine_similarity = 0.0
+                
                     return_values.append({"uri": id, "name" : name, "description": description, "score": cosine_similarity})
     
     return_values = sorted(return_values, key=lambda x: x["score"], reverse=True)
