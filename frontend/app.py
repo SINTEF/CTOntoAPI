@@ -11,10 +11,10 @@ from util.environment_and_configuration import (
 from util.client_api import ClientAPI
 
 ## Diskcache
-import diskcache
+""" import diskcache
 from dash import DiskcacheManager
 cache = diskcache.Cache("./cache")
-callback_manager = DiskcacheManager(cache)
+callback_manager = DiskcacheManager(cache) """
 ####
 
 """
