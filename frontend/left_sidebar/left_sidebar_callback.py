@@ -12,6 +12,9 @@ logger.info("Initializing left sidebar callbacks...")
 # disable search button until search is complete
 
 
+
+
+
 @app.callback(
     Output("search-button", "disabled", allow_duplicate=True),
     Input("search-button", "n_clicks"),
@@ -20,11 +23,9 @@ logger.info("Initializing left sidebar callbacks...")
 )
 def disable_search_button(n_clicks, search_term):
     logger.info("disable_search_button")
-    # triggered_id = ctx.triggered_id
 
-    # if n_clicks or triggered_id == "search-term":
     return True
-    # return no_update
+
 
 
 @app.callback(
@@ -43,7 +44,7 @@ def simulate_search_button(search_term, n_clicks, disabled):
 
     return no_update
 
-# dash callback function for search button
+
 
 
 @app.callback(
@@ -51,7 +52,7 @@ def simulate_search_button(search_term, n_clicks, disabled):
     Output("search-result", "style"),
     Output("search-button", "disabled"),
     Input("search-button", "n_clicks"),
-    Input("search-term", "value"),
+    State("search-term", "value"),
     State("search-graph", "value"),
     #State("search-button", "disabled")
     prevent_initial_call=True,
@@ -67,7 +68,7 @@ def search_concept(n_clicks, search_term, search_graph):
     style = {"display": "block"}
     if n_clicks:  # or triggered_id == "search-term") and not disabled:
         # time.sleep(10)
-        logger.info(f"""Search term: {search_term} in graph {search_graph}""")
+        logger.info(f"Search term: {search_term} in graph {search_graph}")
         # Call the search function get /search/{search_term}
         # params = {"term": search_term}
         if search_graph == "wikidata":

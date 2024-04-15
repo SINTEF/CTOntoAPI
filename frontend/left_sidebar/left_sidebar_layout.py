@@ -79,6 +79,7 @@ def get_layout():
                                             #     )
                                             # ],
                                         ),
+                                        html.Div(id ="search-button-trigger-id", style={"display": "none"}, children=0)
                                     ],
                                 ),
 
