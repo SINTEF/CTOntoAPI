@@ -13,7 +13,7 @@ Separated from service.py to avoid circular dependencies with endpoint files imp
 #logger.info(f"API: Openapi path set to: {openapi_path}")
 #app = fastapi.FastAPI(root_path=root_path, openapi_url=openapi_path)
 description = """
-This is a smiple API for querying the data from the Circular TwAIn Ontology Library and Wikidata.
+This is a simple API for querying the data from the Circular TwAIn Ontology Library and Wikidata.
 For quering WikiData, the API uses the [LamAPI](https://lamapi.hel.sintef.cloud/).
 """
 
