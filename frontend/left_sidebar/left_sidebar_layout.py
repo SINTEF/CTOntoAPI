@@ -1,7 +1,5 @@
 import dash_bootstrap_components as dbc
-from dash import html, dcc
-
-import uuid
+from dash import html
 
 
 def get_layout():

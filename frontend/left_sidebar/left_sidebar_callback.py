@@ -1,9 +1,7 @@
-import time
 from util.log import logger
 from frontend.app import app
 from dash.dependencies import Input, Output, State
-import dash_bootstrap_components as dbc
-from dash import no_update, ctx, dash_table
+from dash import no_update, dash_table
 from frontend.app import backend_api
 import pandas as pd
 
