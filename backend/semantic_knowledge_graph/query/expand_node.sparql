@@ -9,6 +9,15 @@ WHERE {
     }
     UNION
     {
+        #This one is for the array of objects
+        <[SearchSubject]> ?p ?o1 .
+        FILTER (isBlank(?o1)).
+        ?o1 rdf:rest*/rdf:first ?o .
+        FILTER (!isBlank(?o)).
+        FILTER (!isLiteral(?o))
+    }
+    UNION
+    {
         ?s ?p <[SearchSubject]> .
         FILTER (!isBlank(?s)) .
         FILTER (!isLiteral(?s))
