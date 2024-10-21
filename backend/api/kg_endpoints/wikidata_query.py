@@ -22,8 +22,9 @@ def entity_retrival(term: str) -> list:
     return_values = []
 
     if lookup_result:
-        for values in lookup_result.values():
-            for entity in values:
+        #for values in lookup_result.values():
+        #    for entity in values:
+        for entity in lookup_result:
                 #if entity["name"] == term:
                 if "id" in entity:
                     id = entity["id"]
@@ -82,10 +83,12 @@ def get_labels(uri: str) -> list:
     return_values = []
 
     if lookup_result:
-        lookup_result = json.loads(lookup_result)
-        if "wikidata" in lookup_result:
-            wikidata = lookup_result["wikidata"]
-            if uri in wikidata:
+#        lookup_result = json.loads(lookup_result)
+#        if "wikidata" in lookup_result:
+#            wikidata = lookup_result["wikidata"]
+#            if uri in wikidata:
+        wikidata = json.loads(lookup_result)
+        if uri in wikidata:
                 data_uri = wikidata[uri]
                 if "description" in data_uri:
                     description = data_uri["description"]

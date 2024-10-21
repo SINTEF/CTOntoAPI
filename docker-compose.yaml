@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  graphdb:
+    image: ghcr.io/circular-twain/ctontolib/graphdb-image:latest  # Reference to the image in GHCR
+    container_name: graphdb-container
+    ports:
+      - "7200:7200"  # Expose the GraphDB web interface
+    volumes:
+      - ./data:/opt/graphdb/home  # Persist data between container restarts
+    environment:
+      - GRAPHDB_HOME=/opt/graphdb/home  # Define home directory for GraphDB (adjust if needed)
+    restart: unless-stopped  # Ensure the container restarts automatically unless manually stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -o /dev/null -w '%{http_code}' http://localhost:7200/repositories | grep -E '^(200|401)$'"]
+      interval: 5s  # Check every 30 seconds
+      timeout: 5s  # Timeout for each check
+      retries: 10  # Mark as unhealthy after 5 consecutive failures
+      start_period: 5s  # Wait 10s before starting health checks
+
+  backend:
+    build:
+      context: .  # Build context is the main directory
+      dockerfile: Dockerfile.backend  # Use the renamed backend Dockerfile
+    container_name: backend-service
+    ports:
+      - "9001:9001"
+    env_file:
+      - environment_and_configuration/dev_environment_backend.env  # Load environment variables from this file
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: ["python", "run_backend.py"]
+    restart: unless-stopped
+    depends_on:
+      graphdb:
+        condition: service_healthy  # Wait for GraphDB to be healthy before starting backend
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9001/docs || exit 1"]
+      interval: 5s        # Check health every 30 seconds
+      timeout: 5s         # Timeout after 10 seconds
+      retries: 10           # Consider unhealthy after 5 failed attempts
+      start_period: 10s    # Wait 20 seconds before starting health checks
+  
+  frontend:
+    build:
+      context: .  # Build context is the main directory
+      dockerfile: Dockerfile.frontend  # Use the renamed frontend Dockerfile
+    container_name: frontend-service
+    ports:
+      - "9002:9002"
+    env_file:
+      - environment_and_configuration/dev_environment_frontend.env  # Load environment variables from this file
+    environment:
+      - PYTHONUNBUFFERED=1 
+    command: ["python", "run_frontend.py"]
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy  # Wait for backend to be healthy before starting frontend
+
+volumes:
+  data:
