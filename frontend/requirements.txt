@@ -4,3 +4,4 @@ dash-bootstrap-components==1.6.0
 numpy
 pandas
 dash_cytoscape==1.0.1
+python-dotenv==1.0.1

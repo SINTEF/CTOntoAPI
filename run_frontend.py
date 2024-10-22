@@ -1,3 +1,15 @@
+from util.environment_and_configuration import (
+    get_environment_variable,
+    get_environment_variable_int,
+    get_environment_variable_bool,
+)
+
+#if not running in docker, load environment variables from dev .env file
+if not get_environment_variable_bool("DOCKER_ENV", optional=True, default=False):
+    from dotenv import load_dotenv
+    load_dotenv("environment_and_configuration/dev_environment_frontend.env")
+    
+    
 import os
 from frontend.app import app
 from frontend import page_layout
@@ -14,10 +26,7 @@ from dash.exceptions import PreventUpdate
 
 import dash_bootstrap_components as dbc
 
-from util.environment_and_configuration import (
-    get_environment_variable,
-    get_environment_variable_int,
-)
+
 
 from util.log import logger
 
