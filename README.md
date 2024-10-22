@@ -23,7 +23,7 @@ docker-compose up
 ```
 
 ### Run with Python
-GraphDB is required to run the API. The GraphDB image is built the ontologies is available at the [CircularTwAIn Packages](https://github.com/orgs/Circular-TwAIn/packages). To start it, run:
+GraphDB is required to run the API. The GraphDB image built with the ontologies is available at the [CircularTwAIn Packages](https://github.com/orgs/Circular-TwAIn/packages). To start it, run:
 
 ```bash
 docker run -d -p 7200:7200 ghcr.io/circular-twain/ctontolib/graphdb-image:latest
