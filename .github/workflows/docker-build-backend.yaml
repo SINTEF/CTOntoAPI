@@ -15,7 +15,7 @@ on:
       - "Dockerfile.backend"
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: sintef/ctontoapi
+  IMAGE_NAME: sintef/ctontoapi-backend
   GITOPS_REPOSITORY: SINTEF/infrastructure-as-code-sustainable-communication-technologies
 jobs:
   build-and-push-image:
@@ -65,7 +65,7 @@ jobs:
           ssh-key: ${{secrets.GITOPS_REPOSITORY_SSH_KEY}}
       - name: Patch version
         run: |
-          yq --inplace '.backend.image.tag |= "sha-'$(git rev-parse --short $GITHUB_SHA)'"' deployments/ctontoapi/image-tags.yaml
+          yq --inplace '.ctontoapi-backend.image.tag |= "sha-'$(git rev-parse --short $GITHUB_SHA)'"' deployments/ctontoapi/image-tags.yaml
       - name: Configure Machine Acount for Git
         run: |
           echo "${{ secrets.GITOPS_PGP_PRIVATE_KEY }}" | gpg --import
