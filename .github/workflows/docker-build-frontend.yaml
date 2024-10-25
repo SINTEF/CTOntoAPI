@@ -71,7 +71,7 @@ jobs:
           echo "${{ secrets.GITOPS_PGP_PRIVATE_KEY }}" | gpg --import
           git config user.name "SINTEF SCT CI Machine Account"
           git config user.email "114478573+sintef-sct-ci-machine-account@users.noreply.github.com"
-          git config user.signingkey 5B8E5797C606300A
+          git config user.signingkey 5A8DEB988A15EBB5
           git config commit.gpgsign true
       - name: Commit and push
         run: |
