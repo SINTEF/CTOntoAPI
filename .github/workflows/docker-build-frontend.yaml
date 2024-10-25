@@ -1,0 +1,79 @@
+name: Build and Deploy Frontend
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+      - "Dockerfile.frontend"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+      - "Dockerfile.frontend"
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: sintef/ctontoapi
+  GITOPS_REPOSITORY: SINTEF/infrastructure-as-code-sustainable-communication-technologies
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for main image
+        id: meta-main
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=sha
+      - name: Build and push Docker main image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./
+          file: ./Dockerfile.frontend
+          push: true
+          tags: ${{ steps.meta-main.outputs.tags }}
+          labels: ${{ steps.meta-main.outputs.labels }}
+  deploy:
+    # Only deploy the latest version
+    if: contains(github.ref, 'heads')
+    runs-on: ubuntu-latest
+    needs:
+      - build-and-push-image
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.GITOPS_REPOSITORY }}
+          ssh-key: ${{secrets.GITOPS_REPOSITORY_SSH_KEY}}
+      - name: Patch version
+        run: |
+          yq --inplace '.frontend.image.tag |= "sha-'$(git rev-parse --short $GITHUB_SHA)'"' deployments/ctontoapi/image-tags.yaml
+      - name: Configure Machine Acount for Git
+        run: |
+          echo "${{ secrets.GITOPS_PGP_PRIVATE_KEY }}" | gpg --import
+          git config user.name "SINTEF SCT CI Machine Account"
+          git config user.email "114478573+sintef-sct-ci-machine-account@users.noreply.github.com"
+          git config user.signingkey 5B8E5797C606300A
+          git config commit.gpgsign true
+      - name: Commit and push
+        run: |
+          git commit -S -am "GitOps update $(git rev-parse --short $GITHUB_SHA) for CTOntoAPI frontend"
+          git pull --rebase
+          git push
